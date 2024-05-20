@@ -39,7 +39,7 @@ Promise.all([
             nodes.push({ id: row.left_id });
         }
         if (row.right_id && row.right_id !== "no pair") {
-            nodes.push({ id: row.right_id, label: row.right_id });
+            nodes.push({ id: row.right_id });
         }
     });
 
@@ -59,10 +59,7 @@ Promise.all([
             if  (value > 0 && key != fromKey){
                 edges.push({ from: fromKey, to: key, width: value });
             }
-        }
-        
-        // Break the loop after processing the first row
-        break;
+        }        
     }
 
     // Create the network using the processed nodes and edges data
