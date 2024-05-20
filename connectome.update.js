@@ -93,7 +93,6 @@ BRAIN.neuronsToActicate['R_visual_8'] = false;
 BRAIN.neuronsToActicate['L_visual_8'] = false;
 
 BRAIN.update = function() {
-}
     if (BRAIN.neuronsToActicate['L_gustatory-external_11']){
         BRAIN.dendriteAccumulate('3267019');
         BRAIN.dendriteAccumulate('15730680');
@@ -804,4 +803,4 @@ BRAIN.update = function() {
         BRAIN.dendriteAccumulate('7485368');
         BRAIN.runconnectome();
     }
-}}
+}

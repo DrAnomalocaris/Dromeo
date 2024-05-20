@@ -36,7 +36,6 @@ BRAIN.fireNeuron = function(fneuron) {
 }
 
 BRAIN.dendriteAccumulate = function(dneuron) {
-    print(dneuron)
     BRAIN.connectome[dneuron]();
 
 }

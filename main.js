@@ -30,24 +30,24 @@ print("set up connectome html")
  */
 
 function updateBrain() {
-	BRAIN.update();
-  print("updating node map")
+  BRAIN.update();
 	for (var postSynaptic in BRAIN.connectome) {
 		var psBox = document.getElementById(postSynaptic);
 		var neuron = BRAIN.postSynaptic[postSynaptic][BRAIN.thisState];
 
 		psBox.style.backgroundColor = '#55FF55';
-		psBox.style.opacity = Math.min(1, neuron / 50);
+		psBox.style.opacity = Math.min(1, (neuron / 50)+.2);
 	}
-	let scalingFactor = 20;
-	let newDir = (BRAIN.accumleft - BRAIN.accumright) / scalingFactor;
-	targetDir = facingDir + newDir * Math.PI;
+	//let scalingFactor = 20;
+	//let newDir = (BRAIN.accumleft - BRAIN.accumright) / scalingFactor;
+	//targetDir = facingDir + newDir * Math.PI;
 	//targetDir = facingDir + calculateFinalDirection(BRAIN.accumleft/200, BRAIN.accumright/200);
-	targetSpeed =
-		(Math.abs(BRAIN.accumleft) + Math.abs(BRAIN.accumright)) /
-		(scalingFactor * 5);
-	speedChangeInterval = (targetSpeed - speed) / (scalingFactor * 1.5);
+	//targetSpeed =
+	//	(Math.abs(BRAIN.accumleft) + Math.abs(BRAIN.accumright)) /
+	//	(scalingFactor * 5);
+	//speedChangeInterval = (targetSpeed - speed) / (scalingFactor * 1.5);
 }
+BRAIN.neuronsToActicate['R_olfactory_1'] = true;
 
 BRAIN.randExcite();
-setInterval(updateBrain, 500);
+setInterval(updateBrain, 250);

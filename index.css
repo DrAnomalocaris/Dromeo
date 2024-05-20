@@ -18,8 +18,8 @@ body {
 .brainNode {
     border-radius: 0%;
     display: inline-block;
-    height: 3vmin;
-    width: 6vmin;
+    height: 2vmin;
+    width: 2vmin;
     text-align: center;
     transition: opacity .5s;
     /* trigger hardware acceleration */
@@ -39,9 +39,12 @@ body {
 
 }
 .console {
-    bottom:0%;
-    height: 20%; /* Set the desired height of the console */
+    position:relative;
+    bottom:0px;
+    left:0%;
+    right:0%;
+    height:20%:
     overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ccc; /* Optional: Add a border for aesthetics */
-    z-index: 10;
+    border: 0px solid #ccc; /* Optional: Add a border for aesthetics */
+    z-index: -10;
 }
