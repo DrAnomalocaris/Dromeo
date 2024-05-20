@@ -1,0 +1,19 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    color: #777777;
+    background-color: #000000;
+}
+
+#connectome {
+    width: 700px;
+    height: 400px;
+  }
+
+
+.console {
+    height: 200px; /* Set the desired height of the console */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border for aesthetics */
+}
