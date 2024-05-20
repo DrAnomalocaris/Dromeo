@@ -6,14 +6,42 @@ body {
     background-color: #000000;
 }
 
-#connectome {
-    width: 700px;
-    height: 400px;
-  }
+
+#nodeHolder {
+    position: absolute;
+    top: 0;
+    transition: opacity .1s;
+    line-height: 0;
 
 
+}
+.brainNode {
+    border-radius: 0%;
+    display: inline-block;
+    height: 3vmin;
+    width: 6vmin;
+    text-align: center;
+    transition: opacity .5s;
+    /* trigger hardware acceleration */
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0);
+    -webkit-transform-style: preserve-3d;
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    line-height: 3vmin; /* Same as height */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+
+}
 .console {
-    height: 200px; /* Set the desired height of the console */
+    bottom:0%;
+    height: 20%; /* Set the desired height of the console */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc; /* Optional: Add a border for aesthetics */
+    z-index: 10;
 }

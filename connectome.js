@@ -1,86 +1,64 @@
-print("loading Drosophila melanogaster brain")
 
-var BRAIN=[];
-const neuronNodes = 'paperSupplemental/EMS175448-supplement-Supplementary_Data_S2.csv';
-const neuronEdges = 'paperSupplemental/all-all_connectivity_matrix.csv'; // Provide the path to your edges CSV file
 
-// Function to fetch and parse CSV file
-function fetchAndParseCSV(csvFilePath) {
-    print(`fetching ${csvFilePath}`)
-    return fetch(csvFilePath)
-        .then(response => response.text())
-        .then(csvText => {
-            return new Promise((resolve, reject) => {
-                Papa.parse(csvText, {
-                    complete: function(results) {
-                        resolve(results.data);
-                    },
-                    header: true
-                });
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching or parsing the CSV file:', error);
-            throw error;
-        });
-}
 
-// Fetch and parse both CSV files
-Promise.all([
-    fetchAndParseCSV(neuronNodes),
-    fetchAndParseCSV(neuronEdges)
-])
-.then(([nodesData, edgesData]) => {
-    // Process nodes data
-    var nodes = [];
-    print("Reading nodes")
-    nodesData.forEach(function(row) {
-        if (row.left_id && row.left_id !== "no pair") {
-            nodes.push({ id: row.left_id });
+
+
+BRAIN.runconnectome = function() {
+
+    for (var ps in BRAIN.postSynaptic) {
+        /* Muscles cannot fire, make sure they don't */
+        if(BRAIN.muscles.indexOf(ps.substring(0,3)) == -1 &&
+           BRAIN.postSynaptic[ps][BRAIN.thisState] > BRAIN.fireThreshold) {
+            BRAIN.fireNeuron(ps);
         }
-        if (row.right_id && row.right_id !== "no pair") {
-            nodes.push({ id: row.right_id });
-        }
-    });
-
-    // Process edges data
-    var edges = [];
-    print("Reading edges")
-    for (var rowIndex = 0; rowIndex < edgesData.length; rowIndex++) {
-        var row = edgesData[rowIndex];
-        
-        // Iterate through the key-value pairs of the items in the row
-        var keys = Object.keys(row);
-        var fromKey = keys[0];
-        for (var i = 1; i < keys.length; i++) {
-            var key = keys[i];
-            var value = row[key];
-            // Do something with the key-value pair
-            if  (value > 0 && key != fromKey){
-                edges.push({ from: fromKey, to: key, width: value });
-            }
-        }        
     }
 
-    // Create the network using the processed nodes and edges data
-    createNetwork(nodes, edges);
-})
-.catch(error => console.error('Error fetching or parsing CSV files:', error));
+    BRAIN.motorcontrol();
 
-// Function to create network using nodes and edges data
-function createNetwork(nodes, edges) {
-    print("setting connectome diagram")
-    var container = document.getElementById('connectome');
-    var data = {
-        nodes: new vis.DataSet(nodes),
-        edges: new vis.DataSet(edges)
-    };
-    var options =  {layout:{randomSeed: 42,
-                            improvedLayout: false
-    }};
-    print("creating connectome diagram")
-    
-    var network = new vis.Network(container, data, options);
-    print("created connectome diagram")
- 
+    for (var ps in BRAIN.postSynaptic) {
+        BRAIN.postSynaptic[ps][BRAIN.thisState] = BRAIN.postSynaptic[ps][BRAIN.nextState];
+    }
+
+    var temp = BRAIN.thisState;
+    BRAIN.thisState = BRAIN.nextState;
+    BRAIN.nextState = temp;
+
+}
+
+BRAIN.fireNeuron = function(fneuron) {
+
+    /* The threshold has been exceeded and we fire the neurite */
+    if (fneuron !== "MVULVA") {
+        BRAIN.connectome[fneuron]();
+        BRAIN.postSynaptic[fneuron][BRAIN.nextState] = 0;
+    }
+
+}
+
+BRAIN.dendriteAccumulate = function(dneuron) {
+    print(dneuron)
+    BRAIN.connectome[dneuron]();
+
+}
+
+BRAIN.motorcontrol = function() {
+
+    /* accumulate left and right muscles and the accumulated values are
+       used to move the left and right motors of the robot */
+
+    BRAIN.accumleft = 0;
+    BRAIN.accumright = 0;
+
+    for(var m = 0; m < BRAIN.muscleList.length; m++) {
+        var muscleName = BRAIN.muscleList[m];
+
+        if(BRAIN.mLeft.indexOf(muscleName) != -1) {
+            BRAIN.accumleft += BRAIN.postSynaptic[muscleName][BRAIN.nextState];
+            BRAIN.postSynaptic[muscleName][BRAIN.nextState] = 0;
+        } else if(BRAIN.mRight.indexOf(muscleName) != -1) {
+            BRAIN.accumright += BRAIN.postSynaptic[muscleName][BRAIN.nextState];
+            BRAIN.postSynaptic[muscleName][BRAIN.nextState] = 0;
+        }
+    }
+
 }
