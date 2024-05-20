@@ -1,5 +1,5 @@
 var pronouns="sier/sieser/siem/sien ";
-
+var brainTick=50;
 
 
 
@@ -89,4 +89,4 @@ function updateBrain() {
 }
 
 //BRAIN.randExcite();
-setInterval(updateBrain, 100);
+setInterval(updateBrain, brainTick);
