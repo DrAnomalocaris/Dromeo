@@ -116,16 +116,26 @@ body {
 .toggle-label {
     display: inline-block;
     padding: 10px 20px; /* Adjust padding to make the button larger */
-    background-color: #ccc; /* Default color */
+    background-color: #777; /* Default color */
     border-radius: 20px; /* Adjust border-radius to make the button more rounded */
     cursor: pointer;
     font-size: 16px; /* Increase font size for better readability */
     font-family: Arial, sans-serif; /* Specify a readable font */
     color: #333; /* Dark text color for better contrast */
     text-align: center; /* Center the text horizontally */
+    transition: 
+        background-color 0.3s ease,
+        color 0.3s ease, 
+        transform 0.2s ease;/* Add transition for background and color */
+
 }
 
 .toggle:checked + .toggle-label {
     background-color: #66bb6a; /* Change color when checked */
     color: #fff; /* Light text color for better contrast when checked */
+}
+
+
+.toggle-label:active {
+    transform: scale(0.85); /* Shrink by 1% when active (clicked) */
 }
