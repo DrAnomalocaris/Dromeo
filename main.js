@@ -89,4 +89,5 @@ function updateBrain() {
 }
 
 //BRAIN.randExcite();
+
 setInterval(updateBrain, brainTick);
